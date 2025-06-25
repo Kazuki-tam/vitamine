@@ -1,10 +1,13 @@
 <header class="l-header">
   <div class="l-header__inner">
-    <a href="/" class="l-header__logo">LOGO</a>
+    <a href="/" class="l-header__logo">
+      <img src="/logo.svg" alt="ロゴ" class="l-header__logo-icon">
+      <span class="l-header__logo-text">Vitamin</span>
+    </a>
     <nav class="l-header__nav">
-      <a href="/about/" {{#if aboutActive}}class="is-active" {{/if}}>About</a>
-      <a href="#services">Services</a>
-      <a href="#contact">Contact</a>
+      <a href="#about" class="l-header__nav-link">About</a>
+      <a href="#services" class="l-header__nav-link">Services</a>
+      <a href="#contact" class="l-header__nav-link">Contact</a>
     </nav>
   </div>
 </header>

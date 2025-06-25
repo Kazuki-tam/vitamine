@@ -12,7 +12,6 @@ export interface FullPageConfig {
   path: string;
   cssPath: string;
   jsPath: string;
-  aboutActive: boolean;
 }
 
 export interface GlobalConfig {
@@ -33,11 +32,6 @@ export const simplePageConfigs: Record<string, SimplePageConfig> = {
     title: 'Vitamin Template',
     description: 'サイトの説明文',
     ogDescription: 'シンプルで使いやすいWeb制作テンプレート',
-  },
-  '/about/index.html': {
-    title: 'About - Vitamin Template',
-    description: 'Vitamin Templateについて',
-    ogDescription: 'シンプルで使いやすいWeb制作テンプレートについて詳しく紹介',
   },
   // 新しいページの追加例（超シンプル）:
   // '/contact/index.html': {
@@ -94,7 +88,6 @@ function expandPageConfig(pagePath: string, simpleConfig: SimplePageConfig): Ful
     path: urlPath,
     cssPath,
     jsPath,
-    aboutActive: urlPath === '/about/',
   };
 }
 

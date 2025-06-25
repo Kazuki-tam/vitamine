@@ -4,7 +4,7 @@
     "enabled": false
   },
   "files": {
-    "ignore": ["node_modules", "dist", "*.min.js"]
+    "includes": ["**/*", "!node_modules", "!dist", "!*.min.js"]
   },
   "formatter": {
     "enabled": true,
@@ -23,15 +23,13 @@
       },
       "style": {
         "useConst": "error",
-        "useTemplate": "warn"
+        "useTemplate": "warn",
+        "useImportType": "error"
       },
       "suspicious": {
         "noExplicitAny": "warn"
       }
     }
-  },
-  "organizeImports": {
-    "enabled": true
   },
   "javascript": {
     "formatter": {

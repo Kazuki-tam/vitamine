@@ -1,24 +1,27 @@
 {
-	"name": "vitamin",
-	"version": "1.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
-		"preview": "vite preview",
-		"lint": "biome check --write .",
-		"format": "biome format --write .",
-		"typecheck": "tsc --noEmit",
-		"audit": "bunx upgradeps"
-	},
-	"devDependencies": {
-		"@types/node": "^24.0.4",
-		"@biomejs/biome": "^2.0.5",
-		"autoprefixer": "^10.4.21",
-		"postcss": "^8.5.6",
-		"postcss-import": "^16.1.1",
-		"typescript": "^5.8.3",
-		"vite": "^7.0.0",
-		"vite-plugin-image-optimizer": "^2.0.0"
-	}
+  "name": "vitamin",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "biome check --write .",
+    "lint:markup": "markuplint \"./src/**/*.html\"",
+    "format": "biome format --write .",
+    "check": "biome check . --write && bun run typecheck && bun run lint:markup",
+    "typecheck": "tsc --noEmit",
+    "audit": "bunx upgradeps"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.5",
+    "@types/node": "^24.0.4",
+    "autoprefixer": "^10.4.21",
+    "markuplint": "^4.12.0",
+    "postcss": "^8.5.6",
+    "postcss-import": "^16.1.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.0",
+    "vite-plugin-image-optimizer": "^2.0.0"
+  }
 }

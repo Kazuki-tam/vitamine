@@ -76,6 +76,25 @@
   margin-bottom: var(--spacing-xl) !important;
 }
 
+.u-mr-0 {
+  margin-right: 0 !important;
+}
+.u-mr-xs {
+  margin-right: var(--spacing-xs) !important;
+}
+.u-mr-sm {
+  margin-right: var(--spacing-sm) !important;
+}
+.u-mr-md {
+  margin-right: var(--spacing-md) !important;
+}
+.u-mr-lg {
+  margin-right: var(--spacing-lg) !important;
+}
+.u-mr-xl {
+  margin-right: var(--spacing-xl) !important;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .u-hidden-mobile {

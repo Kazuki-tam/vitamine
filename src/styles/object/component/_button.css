@@ -22,6 +22,7 @@
 
 .c-button--primary:hover {
   background-color: var(--color-primary-dark);
+  color: var(--color-text-on-primary);
   box-shadow: var(--shadow-accent);
   transform: translateY(-1px);
 }

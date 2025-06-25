@@ -44,7 +44,7 @@
 
 .l-header__nav {
   display: flex;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md);
 }
 
 .l-header__nav-link {

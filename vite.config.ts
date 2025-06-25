@@ -4,9 +4,11 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 export default defineConfig({
   root: './src',
+  publicDir: '../public',
   build: {
     target: 'es2022',
     outDir: '../dist',
+    emptyOutDir: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'src/index.html'),

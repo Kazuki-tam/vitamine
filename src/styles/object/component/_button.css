@@ -23,6 +23,7 @@
 .c-button--primary:hover {
   background-color: var(--color-primary-dark);
   color: var(--color-text-on-primary);
+  text-decoration: none;
   box-shadow: var(--shadow-accent);
   transform: translateY(-1px);
 }
@@ -36,6 +37,7 @@
 .c-button--secondary:hover {
   background-color: var(--color-primary);
   color: var(--color-text-on-primary);
+  text-decoration: none;
 }
 
 /* ベースカラーを活用したソフトバリエーション */

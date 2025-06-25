@@ -83,4 +83,9 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+  /* ヘッダー関連の変数 */
+  --header-height-desktop: calc(var(--spacing-md) * 2 + 40px + 2px); /* padding + logo + border */
+  --header-height-mobile: calc(var(--spacing-md) * 2 + 36px + 2px); /* padding + mobile logo + border */
+  --scroll-offset-margin: 1.6rem; /* スクロール時の追加マージン */
 }

@@ -4,7 +4,22 @@
       <img src="/logo.svg" alt="ロゴ" class="l-header__logo-icon">
       <span class="l-header__logo-text">Vitamin</span>
     </a>
-    <nav class="l-header__nav">
+
+    <!-- ハンバーガーメニューボタン -->
+    <button type="button" class="l-header__hamburger" aria-label="メニューを開く" aria-expanded="false">
+      <span class="l-header__hamburger-line"></span>
+      <span class="l-header__hamburger-line"></span>
+      <span class="l-header__hamburger-line"></span>
+    </button>
+
+    <!-- デスクトップナビゲーション -->
+    <nav class="l-header__nav l-header__nav--desktop">
+      <a href="#features" class="l-header__nav-link">なぜ選ぶのか</a>
+      <a href="#template" class="l-header__nav-link">テンプレートの特徴</a>
+    </nav>
+
+    <!-- モバイルナビゲーション -->
+    <nav class="l-header__nav l-header__nav--mobile" aria-hidden="true">
       <a href="#features" class="l-header__nav-link">なぜ選ぶのか</a>
       <a href="#template" class="l-header__nav-link">テンプレートの特徴</a>
     </nav>

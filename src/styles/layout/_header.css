@@ -27,6 +27,7 @@
 
 .l-header__logo:hover {
   transform: scale(1.05);
+  text-decoration: none;
 }
 
 .l-header__logo-icon {
@@ -42,9 +43,71 @@
   transition: color var(--transition-base);
 }
 
+/* ハンバーガーメニューボタン */
+.l-header__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  transition: transform var(--transition-base);
+}
+
+.l-header__hamburger:hover {
+  transform: scale(1.1);
+}
+
+.l-header__hamburger-line {
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-text-base);
+  transition: all var(--transition-base);
+  transform-origin: center;
+}
+
+/* ハンバーガーメニュー開閉時のアニメーション */
+.l-header__hamburger[aria-expanded="true"] .l-header__hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.l-header__hamburger[aria-expanded="true"] .l-header__hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.l-header__hamburger[aria-expanded="true"] .l-header__hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ナビゲーション共通スタイル */
 .l-header__nav {
   display: flex;
   gap: var(--spacing-md);
+}
+
+/* デスクトップナビゲーション */
+.l-header__nav--desktop {
+  display: flex;
+}
+
+/* モバイルナビゲーション */
+.l-header__nav--mobile {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--color-bg-base);
+  border-bottom: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-lg);
+  flex-direction: column;
+  padding: var(--spacing-md);
+  gap: var(--spacing-xs);
+  z-index: 1000;
 }
 
 .l-header__nav-link {
@@ -79,8 +142,18 @@
   width: 80%;
 }
 
+/* モバイル時の表示状態管理 */
+.l-header__nav--mobile.is-open {
+  display: flex;
+}
+
+/* タブレット・モバイル対応 */
 @media (max-width: 768px) {
-  .l-header__nav {
+  .l-header__hamburger {
+    display: flex;
+  }
+
+  .l-header__nav--desktop {
     display: none;
   }
 
@@ -91,5 +164,21 @@
 
   .l-header__logo-text {
     font-size: var(--font-size-lg);
+  }
+
+  /* モバイルナビゲーションのスタイル調整 */
+  .l-header__nav--mobile .l-header__nav-link {
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--color-border-light);
+    text-align: center;
+    font-size: var(--font-size-lg);
+  }
+
+  .l-header__nav--mobile .l-header__nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .l-header__nav--mobile .l-header__nav-link:hover {
+    background-color: var(--color-base-light);
   }
 }

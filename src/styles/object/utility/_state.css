@@ -1,0 +1,5 @@
+/* State classes */
+.is-active {
+  color: var(--color-primary) !important;
+  font-weight: 700;
+}

@@ -1,0 +1,45 @@
+import { resolve } from 'node:path';
+import { defineConfig } from 'vite';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+
+export default defineConfig({
+  root: './src',
+  build: {
+    target: 'es2022',
+    outDir: '../dist',
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'src/index.html'),
+        about: resolve(__dirname, 'src/about/index.html'),
+      },
+    },
+  },
+  plugins: [
+    ViteImageOptimizer({
+      png: {
+        quality: 90,
+      },
+      jpeg: {
+        quality: 80,
+      },
+      jpg: {
+        quality: 80,
+      },
+      webp: {
+        lossless: true,
+      },
+      svg: {
+        plugins: [
+          {
+            name: 'removeViewBox',
+            active: false,
+          },
+          {
+            name: 'removeEmptyAttrs',
+            active: false,
+          },
+        ],
+      },
+    }),
+  ],
+});

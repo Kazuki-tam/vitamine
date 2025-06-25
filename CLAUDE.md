@@ -65,11 +65,26 @@ ViteImageOptimizerプラグインによる自動最適化：
 - WebP: ロスレス圧縮
 - SVG: viewBoxと属性を保持
 
+## Figma MCPサーバー連携
+Figma Dev Mode MCPサーバーを活用してデザインデータの効率的な取得を行う：
+
+### セットアップ
+- Figmaデスクトップアプリで MCPサーバー有効化
+- Cursorで MCPクライアント設定: `http://127.0.0.1:3845/sse`
+
+### ワークフロー
+- **選択ベース**: Figmaでフレーム選択 → AI実装指示
+- **リンクベース**: Figmaリンクコピー → AI実装指示
+- デザイントークンとCSS変数の自動対応
+- FLOCSS階層への適切な配置判断
+- **レスポンシブ対応**: モバイルファーストでの段階的実装
+
 ## 新規ページ追加手順
-1. `src/`にHTMLファイル作成
-2. `vite.config.ts`の`rollupOptions.input`に追加
-3. 必要に応じて`styles/object/project/`に専用スタイル追加
-4. `src/style.css`に専用スタイルをインポート
+1. **Figmaデザイン確認**: MCPサーバー経由でデザイン取得
+2. `src/`にHTMLファイル作成
+3. `vite.config.ts`の`rollupOptions.input`に追加
+4. 必要に応じて`styles/object/project/`に専用スタイル追加（FLOCSS準拠）
+5. `src/style.css`に専用スタイルをインポート
 
 ## Gitワークフロー
 プロジェクトではGitワークフローを採用：

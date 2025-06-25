@@ -13,6 +13,7 @@ alwaysApply: true
 - **ビルドツール**: Vite（マルチページ設定） - [vite.config.ts](mdc:vite.config.ts)
 - **言語**: TypeScript (ES2022) - [tsconfig.json](mdc:tsconfig.json)
 - **スタイリング**: Pure CSS (FLOCSS設計)
+- **デザイン連携**: Figma MCP サーバー（デザインデータ自動取得）
 - **パッケージマネージャー**: bun - [package.json](mdc:package.json)
 - **ソースルート**: `./src`ディレクトリ
 
@@ -75,10 +76,11 @@ bun run audit          # 依存関係更新
 ## マルチページ設定
 
 新規ページ追加時の手順：
-1. `src/`にHTMLファイル作成
-2. [vite.config.ts](mdc:vite.config.ts) の `rollupOptions.input` に追加
-3. 必要に応じて `src/styles/object/project/` に専用スタイル追加
-4. [src/style.css](mdc:src/style.css) に専用スタイルをインポート
+1. **Figma MCPサーバー経由でデザイン取得・分析**
+2. `src/`にHTMLファイル作成
+3. [vite.config.ts](mdc:vite.config.ts) の `rollupOptions.input` に追加
+4. 必要に応じて `src/styles/object/project/` に専用スタイル追加（FLOCSS準拠）
+5. [src/style.css](mdc:src/style.css) に専用スタイルをインポート
 
 現在のページ：
 - [src/index.html](mdc:src/index.html) - メインページ
@@ -101,6 +103,7 @@ bun run audit          # 依存関係更新
   - Component: `c-*`
   - Project: `p-*`
   - Utility: `u-*`
+- **レスポンシブ対応**: モバイルファーストアプローチで実装
 
 ### TypeScript
 - strict mode
@@ -110,6 +113,39 @@ bun run audit          # 依存関係更新
 ### HTML
 - [Markuplint](mdc:.markuplintrc) でバリデーション（アクセシビリティ重視）
 
+## レスポンシブデザイン
+
+### ブレイクポイント設定
+[_variables.css](mdc:src/styles/foundation/_variables.css) で定義されたブレイクポイントを使用：
+
+```css
+/* モバイルファーストアプローチ */
+.c-component {
+  /* Mobile（default） */
+  padding: var(--spacing-sm);
+}
+
+@media (min-width: 640px) { /* --breakpoint-sm */
+  .c-component {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 768px) { /* --breakpoint-md */
+  .c-component {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: var(--spacing-lg);
+  }
+}
+```
+
+### レスポンシブ実装指針
+- **モバイルファースト**: 320px幅から実装開始
+- **プログレッシブエンハンスメント**: 段階的に機能を向上
+- **タッチインターフェース**: モバイルでの操作性を優先
+- **パフォーマンス重視**: 不要なCSS読み込みを避ける
+
 ## 画像最適化
 
 ViteImageOptimizerプラグインによる自動最適化：
@@ -118,6 +154,46 @@ ViteImageOptimizerプラグインによる自動最適化：
 - WebP: ロスレス圧縮
 - SVG: viewBoxと属性を保持
 
+## Figma MCPサーバー連携
+
+### 概要
+Figma Dev Mode MCPサーバーを使用して、デザインデータの効率的な取得とフロントエンド実装を行います。
+
+### 設定方法
+```json
+// Cursor MCP設定
+{
+  "mcpServers": {
+    "Figma": {
+      "url": "http://127.0.0.1:3845/sse"
+    }
+  }
+}
+```
+
+### 実装フロー
+1. **Figmaでデザイン選択** (フレーム/コンポーネント)
+   - 各ブレイクポイントでのデザイン確認
+   - レスポンシブ動作の仕様把握
+2. **MCPサーバー経由での情報取得** 
+   - デザイントークンとブレイクポイント情報の取得
+3. **FLOCSS階層の判断と実装**
+   - Layout: サイト構造レベル
+   - Component: 再利用可能UI
+   - Project: ページ固有要素
+   - Utility: ヘルパークラス
+4. **CSS変数との整合性確認**
+   - ブレイクポイント変数の活用
+5. **レスポンシブ実装** (モバイルファースト)
+6. **TypeScript型定義の作成**
+
+### 品質担保項目
+- [ ] デザイントークンとCSS変数の対応確認
+- [ ] FLOCSS命名規則への準拠
+- [ ] アクセシビリティ要件の実装
+- [ ] レスポンシブデザインの適用（モバイルファースト）
+- [ ] 各ブレイクポイントでの表示・動作確認
+
 ## 重要な注意事項
 
 1. **技術スタックの変更禁止**: バージョン変更は事前承認が必要
@@ -125,3 +201,4 @@ ViteImageOptimizerプラグインによる自動最適化：
 3. **型安全性の確保**: TypeScript strict modeを維持
 4. **アクセシビリティ**: Markuplint設定に従い、アクセシブルなHTMLを記述
 5. **パフォーマンス**: 画像最適化と適切なバンドル分割を実施
+6. **デザイン整合性**: Figma MCPサーバーによるデザインデータとの一致を確保

@@ -161,19 +161,94 @@ alwaysApply: false
 
 ## レスポンシブデザイン
 
-ブレイクポイントは [_variables.css](mdc:src/styles/foundation/_variables.css) で定義された変数を使用：
+### モバイルファーストアプローチ
+常にモバイル（320px以上）から実装を開始し、段階的に大きな画面に対応：
 
 ```css
+/* モバイル（デフォルト） */
 .c-card {
-  padding: var(--space-md);
+  padding: var(--spacing-sm);
+  display: block;
 }
 
+/* タブレット（640px以上） */
+@media (min-width: 640px) {
+  .c-card {
+    padding: var(--spacing-md);
+    display: flex;
+  }
+}
+
+/* デスクトップ（768px以上） */
 @media (min-width: 768px) {
   .c-card {
-    padding: var(--space-lg);
+    padding: var(--spacing-lg);
+    display: grid;
+    grid-template-columns: 1fr 2fr;
   }
 }
 ```
+
+### ブレイクポイント変数の活用
+[_variables.css](mdc:src/styles/foundation/_variables.css) で定義されたブレイクポイント変数を使用：
+
+```css
+/* 推奨: 変数を使用 */
+@media (min-width: var(--breakpoint-md)) {
+  .c-component {
+    /* スタイル */
+  }
+}
+
+/* 非推奨: 直接値を記述 */
+@media (min-width: 768px) {
+  .c-component {
+    /* スタイル */
+  }
+}
+```
+
+### FLOCSS各層でのレスポンシブ対応
+
+#### Layout層での対応
+```css
+/* l-container */
+.l-container {
+  width: 100%;
+  padding: 0 var(--spacing-md);
+  margin: 0 auto;
+}
+
+@media (min-width: var(--breakpoint-lg)) {
+  .l-container {
+    max-width: var(--container-max-width);
+    padding: 0 var(--spacing-lg);
+  }
+}
+```
+
+#### Component層での対応
+```css
+/* c-button */
+.c-button {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+}
+
+@media (min-width: var(--breakpoint-md)) {
+  .c-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: var(--font-size-base);
+  }
+}
+```
+
+### レスポンシブ実装ガイドライン
+1. **320px幅から実装開始**: 最小幅を基準とする
+2. **タッチインターフェース優先**: モバイルでの操作性を重視
+3. **プログレッシブエンハンスメント**: 機能を段階的に向上
+4. **パフォーマンス重視**: 不要なCSSを避ける
+5. **アクセシビリティ配慮**: すべての画面サイズで利用可能
 
 ## パフォーマンス最適化
 

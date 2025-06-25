@@ -1,0 +1,272 @@
+---
+description: 開発ワークフローの定義
+globs: 
+alwaysApply: false
+---
+# Development Workflow & Tooling Guide
+
+Vitaminテンプレートプロジェクトの開発ワークフローとツール設定についてのガイドです。
+
+## Gitワークフローとブランチ管理
+
+プロジェクトではGitワークフローを採用したブランチ管理を行います。
+
+### ブランチ戦略
+
+#### メインブランチ
+- **main**: 本番環境にデプロイされる安定版
+- **develop**: 開発版の統合ブランチ（次回リリース用）
+
+#### 作業ブランチ
+- **feature/[機能名]**: 新機能開発用
+- **fix/[修正内容]**: バグ修正用
+- **hotfix/[緊急修正]**: 本番環境の緊急修正用
+
+### ブランチ運用ルール
+
+#### 新機能開発フロー
+```bash
+# developブランチから新機能ブランチを作成
+git checkout develop
+git pull origin develop
+git checkout -b feature/new-page-design
+
+# 開発作業
+# ... コード変更 ...
+
+# コミット前チェック
+bun run check
+
+# コミット
+git add .
+git commit -m "feat: 新しいページデザインを追加"
+
+# プッシュしてプルリクエスト作成
+git push origin feature/new-page-design
+```
+
+#### バグ修正フロー
+```bash
+# developまたはmainから修正ブランチを作成
+git checkout develop
+git pull origin develop
+git checkout -b fix/header-layout-issue
+
+# 修正作業とテスト
+bun run check
+
+# コミット
+git commit -m "fix: ヘッダーレイアウトの崩れを修正"
+
+# プッシュしてプルリクエスト作成
+git push origin fix/header-layout-issue
+```
+
+### コミットメッセージ規約
+
+#### 形式
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+#### タイプ
+- **feat**: 新機能追加
+- **fix**: バグ修正
+- **docs**: ドキュメント変更
+- **style**: コードフォーマット変更（機能に影響なし）
+- **refactor**: リファクタリング
+- **test**: テスト追加・修正
+- **chore**: ビルド設定やツール変更
+
+#### 例
+```bash
+# 新機能追加
+git commit -m "feat(hero): ヒーローセクションにアニメーション追加"
+
+# バグ修正
+git commit -m "fix(button): ホバー時のスタイル崩れを修正"
+
+# CSS改善
+git commit -m "style(layout): FLOCSS命名規則に準拠するよう修正"
+
+# ドキュメント更新
+git commit -m "docs: READMEにセットアップ手順を追加"
+```
+
+### プルリクエスト手順
+
+#### PR作成前チェックリスト
+- [ ] `bun run check` でエラーがないことを確認
+- [ ] [vite.config.ts](mdc:vite.config.ts) の更新（新規ページ追加時）
+- [ ] FLOCSS設計に準拠したCSS記述
+- [ ] 適切なコミットメッセージ形式
+
+#### PRテンプレート
+```markdown
+## 変更内容
+- 変更点の概要
+
+## チェックリスト
+- [ ] `bun run check` 実行済み
+- [ ] FLOCSS設計に準拠
+- [ ] アクセシビリティ確認済み
+- [ ] 画像最適化適用済み
+
+## テスト
+- 動作確認項目
+
+## スクリーンショット
+（必要に応じて）
+```
+
+### マージ戦略
+- **Squash and merge**: feature/fixブランチ → develop
+- **Merge commit**: develop → main
+- **Delete branch**: マージ後は作業ブランチを削除
+
+## メンテナンスコマンド
+```bash
+# 依存関係更新チェック
+bun run audit
+```
+
+## 品質保証ワークフロー
+
+### コード品質チェック手順
+1. **TypeScript型チェック**
+   ```bash
+   bun run typecheck
+   ```
+
+2. **リント・フォーマット**
+   ```bash
+   bun run lint
+   bun run format
+   ```
+
+3. **HTML構文チェック**
+   ```bash
+   bun run lint:markup
+   ```
+
+4. **統合チェック**
+   ```bash
+   bun run check  # 上記すべてを実行
+   ```
+
+### コミット前チェックリスト
+- [ ] `bun run check` を実行してエラーがないことを確認
+- [ ] 適切なブランチから作業していることを確認
+- [ ] コミットメッセージ規約に従った形式で記述
+- [ ] 新規ページ追加時は [vite.config.ts](mdc:vite.config.ts) の更新を確認
+- [ ] CSS変更時はFLOCSS設計に準拠していることを確認
+- [ ] 画像ファイル追加時は最適化が適用されることを確認
+
+## ファイル構成ルール
+
+### HTML ファイル
+- **場所**: `src/` 直下
+- **形式**: `index.html` または `page-name/index.html`
+- **必須要素**: `<html lang="ja">`, 適切なメタタグ
+- **検証**: Markuplintでバリデーション
+
+### CSS ファイル
+- **場所**: FLOCSS階層に従って配置
+- **命名**: `_component-name.css` 形式
+- **インポート**: [src/style.css](mdc:src/style.css) で管理
+- **変数**: [_variables.css](mdc:src/styles/foundation/_variables.css) を使用
+
+### TypeScript ファイル
+- **エントリー**: [src/main.ts](mdc:src/main.ts)
+- **型定義**: [src/vite-env.d.ts](mdc:src/vite-env.d.ts)
+- **モジュール**: `src/scripts/modules/` 配下
+- **厳密性**: strict mode必須
+
+### 画像ファイル
+- **場所**: [src/assets/images/](mdc:src/assets/images)
+- **最適化**: ViteImageOptimizerで自動処理
+- **形式**: PNG, JPEG, WebP, SVG対応
+
+## パフォーマンス最適化
+
+### ビルド最適化
+- **コード分割**: Viteの自動分割機能使用
+- **ツリーシェイキング**: 未使用コード自動削除
+- **ミニフィケーション**: プロダクションビルドで自動実行
+
+### 画像最適化設定
+```typescript
+// vite.config.ts 設定例
+ViteImageOptimize({
+  png: { quality: 90 },
+  jpeg: { quality: 80 },
+  webp: { lossless: true },
+  svg: { removeViewBox: false }
+})
+```
+
+### CSS最適化
+- CSS変数の活用でファイルサイズ削減
+- 不要なスタイルの定期的な削除
+- メディアクエリの効率的な使用
+
+## デバッグとトラブルシューティング
+
+### 一般的な問題と解決策
+
+1. **TypeScriptエラー**
+   ```bash
+   # 型チェック実行
+   bun run typecheck
+   
+   # tsconfig.json の設定確認
+   ```
+
+2. **CSS適用されない**
+   - [src/style.css](mdc:src/style.css) のインポート順序確認
+   - FLOCSS命名規則の確認
+   - CSS変数の定義確認
+
+3. **ビルドエラー**
+   ```bash
+   # キャッシュクリア
+   rm -rf node_modules/.vite
+   bun run build
+   ```
+
+4. **Markuplintエラー**
+   - [.markuplintrc](mdc:.markuplintrc) 設定確認
+   - アクセシビリティ要件の確認
+
+### ログ確認方法
+```bash
+# 開発サーバーログ
+bun run dev --debug
+
+# ビルドログ詳細表示
+bun run build --debug
+```
+
+## 新機能開発ガイドライン
+
+### 新規ページ追加
+1. HTMLファイル作成 (`src/page-name/index.html`)
+2. [vite.config.ts](mdc:vite.config.ts) に追加
+3. 専用CSSファイル作成（必要に応じて）
+4. [src/style.css](mdc:src/style.css) にインポート追加
+
+### 新規コンポーネント追加
+1. FLOCSS階層の判断（Component/Project/Utility）
+2. CSSファイル作成 (`_component-name.css`)
+3. BEM記法での命名
+4. CSS変数の使用
+5. [src/style.css](mdc:src/style.css) への追加
+
+### TypeScript機能追加
+1. 型定義の作成
+2. strict mode準拠
+3. 適切なモジュール分割

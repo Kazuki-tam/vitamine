@@ -1,0 +1,183 @@
+---
+description: CSS設計の定義
+globs: 
+alwaysApply: false
+---
+# FLOCSS CSS Design System Guide
+
+このプロジェクトではFLOCSS（Foundation, Layout, Object, Component, State, Style）設計手法を採用しています。
+
+## FLOCSS階層構造
+
+### Foundation層
+**場所**: [src/styles/foundation/](mdc:src/styles/foundation)
+**用途**: プロジェクト全体の基盤となるスタイル
+
+- [_reset.css](mdc:src/styles/foundation/_reset.css) - ブラウザデフォルトスタイルのリセット
+- [_variables.css](mdc:src/styles/foundation/_variables.css) - CSS変数定義（色、フォント、サイズなど）
+- [_base.css](mdc:src/styles/foundation/_base.css) - HTML要素の基本スタイル
+
+### Layout層 (`l-*`)
+**場所**: [src/styles/layout/](mdc:src/styles/layout)
+**用途**: ページの大きな枠組みを担うスタイル
+**命名規則**: `l-` プレフィックス
+
+- [_header.css](mdc:src/styles/layout/_header.css) - サイト共通ヘッダー
+- [_main.css](mdc:src/styles/layout/_main.css) - メインコンテンツ領域
+- [_footer.css](mdc:src/styles/layout/_footer.css) - サイト共通フッター
+
+### Object層
+
+#### Component (`c-*`)
+**場所**: [src/styles/object/component/](mdc:src/styles/object/component)
+**用途**: 再利用可能なUIコンポーネント
+**命名規則**: `c-` プレフィックス
+
+- [_button.css](mdc:src/styles/object/component/_button.css) - ボタンコンポーネント
+- [_card.css](mdc:src/styles/object/component/_card.css) - カードコンポーネント
+
+#### Project (`p-*`)
+**場所**: [src/styles/object/project/](mdc:src/styles/object/project)
+**用途**: プロジェクト固有のページ専用コンポーネント
+**命名規則**: `p-` プレフィックス
+
+- [_hero.css](mdc:src/styles/object/project/_hero.css) - ヒーローセクション
+- [_about.css](mdc:src/styles/object/project/_about.css) - アバウトページ専用スタイル
+- [_cta.css](mdc:src/styles/object/project/_cta.css) - Call to Actionセクション
+- [_page-header.css](mdc:src/styles/object/project/_page-header.css) - ページヘッダー
+
+#### Utility (`u-*`)
+**場所**: [src/styles/object/utility/](mdc:src/styles/object/utility)
+**用途**: ヘルパークラスと状態管理
+**命名規則**: `u-` プレフィックス
+
+- [_utility.css](mdc:src/styles/object/utility/_utility.css) - ユーティリティクラス
+- [_state.css](mdc:src/styles/object/utility/_state.css) - 状態管理クラス
+
+## CSS記述ルール
+
+### 変数の使用
+すべてのCSS値は [_variables.css](mdc:src/styles/foundation/_variables.css) で定義されたCSS変数を使用してください。
+
+```css
+/* 推奨 */
+.c-button {
+  background-color: var(--color-primary);
+  padding: var(--space-md);
+  border-radius: var(--border-radius-sm);
+}
+
+/* 非推奨 */
+.c-button {
+  background-color: #007bff;
+  padding: 16px;
+  border-radius: 4px;
+}
+```
+
+### 命名規則
+- **Layout**: `l-` プレフィックス（例: `.l-header`, `.l-main`）
+- **Component**: `c-` プレフィックス（例: `.c-button`, `.c-card`）
+- **Project**: `p-` プレフィックス（例: `.p-hero`, `.p-about`）
+- **Utility**: `u-` プレフィックス（例: `.u-text-center`, `.u-hidden`）
+
+### BEM記法との併用
+コンポーネント内ではBEM記法を使用：
+
+```css
+.c-card {} /* Block */
+.c-card__header {} /* Element */
+.c-card__body {} /* Element */
+.c-card--featured {} /* Modifier */
+```
+
+### CSS記述順序
+1. 表示・配置プロパティ
+2. サイズ・スペーシング
+3. フォント・テキスト
+4. 色・背景
+5. その他（transition、transformなど）
+
+```css
+.c-button {
+  /* 表示・配置 */
+  display: inline-flex;
+  position: relative;
+  
+  /* サイズ・スペーシング */
+  width: auto;
+  padding: var(--space-sm) var(--space-md);
+  margin: 0;
+  
+  /* フォント・テキスト */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  text-align: center;
+  
+  /* 色・背景 */
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border: 1px solid transparent;
+  
+  /* その他 */
+  transition: var(--transition-base);
+  cursor: pointer;
+}
+```
+
+## ファイル管理ルール
+
+### 新しいコンポーネント作成時
+1. 適切な階層を判断（Component/Project/Utility）
+2. `_component-name.css` 形式でファイル作成
+3. [src/style.css](mdc:src/style.css) に適切な順序でインポート追加
+
+### ファイルインポート順序
+[src/style.css](mdc:src/style.css) では以下の順序でインポート：
+
+```css
+/* 1. Foundation */
+@import 'styles/foundation/_variables.css';
+@import 'styles/foundation/_reset.css';
+@import 'styles/foundation/_base.css';
+
+/* 2. Layout */
+@import 'styles/layout/_header.css';
+@import 'styles/layout/_main.css';
+@import 'styles/layout/_footer.css';
+
+/* 3. Object/Component */
+@import 'styles/object/component/_button.css';
+@import 'styles/object/component/_card.css';
+
+/* 4. Object/Project */
+@import 'styles/object/project/_hero.css';
+@import 'styles/object/project/_about.css';
+
+/* 5. Object/Utility */
+@import 'styles/object/utility/_utility.css';
+@import 'styles/object/utility/_state.css';
+```
+
+## レスポンシブデザイン
+
+ブレイクポイントは [_variables.css](mdc:src/styles/foundation/_variables.css) で定義された変数を使用：
+
+```css
+.c-card {
+  padding: var(--space-md);
+}
+
+@media (min-width: 768px) {
+  .c-card {
+    padding: var(--space-lg);
+  }
+}
+```
+
+## パフォーマンス最適化
+
+1. **CSS変数の活用**: 重複値の削減
+2. **適切な詳細度**: 過度にネストしない
+3. **効率的なセレクター**: IDセレクターは避ける
+4. **未使用CSSの削除**: 定期的にクリーンアップ

@@ -1,68 +1,81 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Vitamin Template - AI開発ガイド
 
 ## プロジェクト概要
-このプロジェクトは、LP・小規模サイト制作用のViteベーステンプレートです。
-FLOCSSに基づいたCSS設計とTypeScriptを採用し、デザイナーがAI駆動開発で効率的に開発を進められるよう設計されています。
+LP・小規模サイト制作用のViteベーステンプレート。FLOCSSに基づいたCSS設計とTypeScriptを採用し、マルチページ対応と画像最適化機能を備えています。
 
-## 技術スタック
-- **ビルドツール**: Vite
+## 技術アーキテクチャ
+- **ビルドツール**: Vite（マルチページ設定）
 - **言語**: TypeScript
 - **スタイリング**: Pure CSS (FLOCSS設計)
 - **パッケージマネージャー**: bun
+- **ソースルート**: `./src`ディレクトリ
 
 ## コマンド
 ```bash
 # 開発サーバー起動
 bun run dev
 
-# ビルド
+# プロダクションビルド（TypeScriptコンパイル含む）
 bun run build
 
-# 型チェック
+# 型チェックのみ
 bun run typecheck
 
-# リント実行
-bun run lint
-bun run lint:css
+# リント・フォーマット
+bun run lint           # Biome自動修正付き
+bun run lint:markup    # HTML構文チェック（Markuplint）
+bun run format         # Biomeフォーマッター
+bun run check          # 全チェック統合実行
 
-# フォーマット
-bun run format
+# メンテナンス
+bun run audit          # 依存関係更新
 ```
 
-## ディレクトリ構造とFLOCSS
-```
-src/styles/
-├── foundation/   # 基本設定
-│   ├── _variables.css  # CSS変数定義
-│   ├── _reset.css      # リセットCSS
-│   └── _base.css       # ベーススタイル
-├── layout/       # レイアウト (l-*)
-│   ├── _header.css
-│   ├── _main.css
-│   └── _footer.css
-├── object/
-│   ├── component/  # 再利用可能部品 (c-*)
-│   │   ├── _button.css
-│   │   └── _card.css
-│   ├── project/    # プロジェクト固有 (p-*)
-│   │   └── _hero.css
-│   └── utility/    # 汎用クラス (u-*)
-│       └── _utility.css
-└── style.css      # インポート管理
-```
+## FLOCSS CSS設計
+CSSファイルは`src/style.css`経由で階層的にインポート：
 
-## 命名規則
-- Layout: `l-*` (例: `l-header`, `l-container`)
-- Component: `c-*` (例: `c-button`, `c-card`)
-- Project: `p-*` (例: `p-hero`, `p-contact`)
-- Utility: `u-*` (例: `u-text-center`, `u-mt-lg`)
+1. **Foundation**: リセット、変数、ベーススタイル
+2. **Layout** (`l-*`): サイト構造コンポーネント
+3. **Object/Component** (`c-*`): 再利用可能UIコンポーネント
+4. **Object/Project** (`p-*`): ページ固有コンポーネント
+5. **Object/Utility** (`u-*`): ヘルパークラス・状態管理
 
-## 新しいページの追加方法
-1. HTMLファイルを作成
-2. vite.config.tsのrollupOptions.inputに追加
-3. 必要に応じてproject/にページ専用スタイルを追加
+すべてのスタイルは`_variables.css`で定義されたCSS変数を使用。
 
-## 注意事項
-- CSS変数は_variables.cssで一元管理
-- レスポンシブ対応はモバイルファーストで実装
-- 画像は自動最適化される（vite-plugin-imagemin）
+## マルチページ設定
+`vite.config.ts`の`rollupOptions.input`でページを設定。各ページは：
+- `src/`内に独自のHTMLファイル
+- `styles/object/project/`に専用CSS（必要に応じて）
+- 共通のTypeScriptエントリーポイント（`main.ts`）を使用
+
+## コーディング規約
+- **TypeScript**: strict mode
+- **CSS**: 2スペースインデント、100文字行幅
+- **HTML**: Markuplint（アクセシビリティ重視）でバリデーション
+- **フォーマット**: Biome（シングルクォート、セミコロン、末尾カンマ）
+
+## 画像最適化
+ViteImageOptimizerプラグインによる自動最適化：
+- PNG: 90%品質
+- JPEG/JPG: 80%品質
+- WebP: ロスレス圧縮
+- SVG: viewBoxと属性を保持
+
+## 新規ページ追加手順
+1. `src/`にHTMLファイル作成
+2. `vite.config.ts`の`rollupOptions.input`に追加
+3. 必要に応じて`styles/object/project/`に専用スタイル追加
+4. `src/style.css`に専用スタイルをインポート
+
+## Gitワークフロー
+プロジェクトではGitワークフローを採用：
+- **main**: 本番環境用安定版
+- **develop**: 開発統合ブランチ
+- **feature/[機能名]**: 新機能開発用
+- **fix/[修正内容]**: バグ修正用
+
+コミットメッセージは`<type>(<scope>): <subject>`形式を使用（例: `feat(hero): ヒーローセクション追加`）

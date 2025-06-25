@@ -1,0 +1,127 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Vitamin Template Project Guide
+
+以下のガイドラインに従ってください。
+
+## プロジェクト構成
+
+### 技術スタック
+- **ビルドツール**: Vite（マルチページ設定） - [vite.config.ts](mdc:vite.config.ts)
+- **言語**: TypeScript (ES2022) - [tsconfig.json](mdc:tsconfig.json)
+- **スタイリング**: Pure CSS (FLOCSS設計)
+- **パッケージマネージャー**: bun - [package.json](mdc:package.json)
+- **ソースルート**: `./src`ディレクトリ
+
+### 重要な設定ファイル
+- [vite.config.ts](mdc:vite.config.ts) - Viteの設定
+- [biome.json](mdc:biome.json) - リント・フォーマット設定
+- [postcss.config.js](mdc:postcss.config.js) - PostCSS設定
+
+## CSS設計 (FLOCSS)
+
+メインのCSSファイルは [src/style.css](mdc:src/style.css) です。
+
+### CSS階層構造
+1. **Foundation**: [src/styles/foundation/](mdc:src/styles/foundation)
+   - [_reset.css](mdc:src/styles/foundation/_reset.css) - リセットスタイル
+   - [_variables.css](mdc:src/styles/foundation/_variables.css) - CSS変数定義
+   - [_base.css](mdc:src/styles/foundation/_base.css) - ベーススタイル
+
+2. **Layout** (`l-*`): [src/styles/layout/](mdc:src/styles/layout)
+   - [_header.css](mdc:src/styles/layout/_header.css)
+   - [_main.css](mdc:src/styles/layout/_main.css)
+   - [_footer.css](mdc:src/styles/layout/_footer.css)
+
+3. **Object/Component** (`c-*`): [src/styles/object/component/](mdc:src/styles/object/component)
+   - [_button.css](mdc:src/styles/object/component/_button.css)
+   - [_card.css](mdc:src/styles/object/component/_card.css)
+
+4. **Object/Project** (`p-*`): [src/styles/object/project/](mdc:src/styles/object/project)
+   - [_hero.css](mdc:src/styles/object/project/_hero.css)
+   - [_about.css](mdc:src/styles/object/project/_about.css)
+   - [_cta.css](mdc:src/styles/object/project/_cta.css)
+   - [_page-header.css](mdc:src/styles/object/project/_page-header.css)
+
+5. **Object/Utility** (`u-*`): [src/styles/object/utility/](mdc:src/styles/object/utility)
+   - [_utility.css](mdc:src/styles/object/utility/_utility.css)
+   - [_state.css](mdc:src/styles/object/utility/_state.css)
+
+## 開発コマンド
+
+```bash
+# 開発サーバー起動
+bun run dev
+
+# プロダクションビルド
+bun run build
+
+# 型チェック
+bun run typecheck
+
+# リント・フォーマット
+bun run lint           # Biome自動修正付き
+bun run lint:markup    # HTML構文チェック
+bun run format         # Biomeフォーマッター
+bun run check          # 全チェック統合実行
+
+# メンテナンス
+bun run audit          # 依存関係更新
+```
+
+## マルチページ設定
+
+新規ページ追加時の手順：
+1. `src/`にHTMLファイル作成
+2. [vite.config.ts](mdc:vite.config.ts) の `rollupOptions.input` に追加
+3. 必要に応じて `src/styles/object/project/` に専用スタイル追加
+4. [src/style.css](mdc:src/style.css) に専用スタイルをインポート
+
+現在のページ：
+- [src/index.html](mdc:src/index.html) - メインページ
+- [src/about/index.html](mdc:src/about/index.html) - アバウトページ
+
+## TypeScript設定
+
+- **エントリーポイント**: [src/main.ts](mdc:src/main.ts)
+- **型定義**: [src/vite-env.d.ts](mdc:src/vite-env.d.ts)
+- **設定**: strict mode、ES2022機能使用
+
+## コーディング規約
+
+### CSS
+- 2スペースインデント
+- 100文字行幅
+- CSS変数は [_variables.css](mdc:src/styles/foundation/_variables.css) で定義
+- FLOCSS命名規則に従う：
+  - Layout: `l-*`
+  - Component: `c-*`
+  - Project: `p-*`
+  - Utility: `u-*`
+
+### TypeScript
+- strict mode
+- ES2022機能使用
+- シングルクォート、セミコロン、末尾カンマ（Biome設定）
+
+### HTML
+- [Markuplint](mdc:.markuplintrc) でバリデーション（アクセシビリティ重視）
+
+## 画像最適化
+
+ViteImageOptimizerプラグインによる自動最適化：
+- PNG: 90%品質
+- JPEG/JPG: 80%品質  
+- WebP: ロスレス圧縮
+- SVG: viewBoxと属性を保持
+
+## 重要な注意事項
+
+1. **技術スタックの変更禁止**: バージョン変更は事前承認が必要
+2. **FLOCSS設計の遵守**: CSS構造を維持し、適切な階層に配置
+3. **型安全性の確保**: TypeScript strict modeを維持
+4. **アクセシビリティ**: Markuplint設定に従い、アクセシブルなHTMLを記述
+5. **パフォーマンス**: 画像最適化と適切なバンドル分割を実施

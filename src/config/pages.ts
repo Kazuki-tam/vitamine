@@ -22,7 +22,7 @@ export interface GlobalConfig {
 
 export const globalConfig: GlobalConfig = {
   siteName: 'Vitamin Template',
-  baseUrl: 'https://yoursite.com',
+  baseUrl: 'https://vitamine-template.vercel.app',
   ogImage: '/og-image.png',
 };
 

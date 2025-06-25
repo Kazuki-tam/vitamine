@@ -1,12 +1,11 @@
 /* Base styles */
 html {
-  font-size: var(--font-size-base);
-  -webkit-text-size-adjust: 100%;
+  font-size: 62.5%; /* 1rem = 10px for easier calculation */
 }
 
 body {
   font-family: var(--font-family-base);
-  font-size: 1rem;
+  font-size: var(--font-size-base); /* 1.6rem = 16px */
   line-height: var(--line-height-base);
   color: var(--color-text-base);
   background-color: var(--color-bg-base);
@@ -50,9 +49,9 @@ a:hover {
 }
 
 /* Focus styles */
-:focus {
+:focus-visible {
   outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 /* Selection */

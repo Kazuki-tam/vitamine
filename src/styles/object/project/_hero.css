@@ -17,7 +17,7 @@
 }
 
 .p-hero__title {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(3.2rem, 8vw, 5.6rem); /* モバイル32px〜デスクトップ56px */
   font-weight: 700;
   margin-bottom: var(--spacing-lg);
   line-height: var(--line-height-heading);
@@ -25,7 +25,7 @@
 }
 
 .p-hero__lead {
-  font-size: var(--font-size-lg);
+  font-size: clamp(2rem, 3vw, 2.4rem); /* モバイル20px〜デスクトップ24px */
   color: var(--color-text-on-base);
   margin-bottom: var(--spacing-xl);
   line-height: var(--line-height-base);

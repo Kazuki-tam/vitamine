@@ -1,0 +1,128 @@
+/**
+ * 404 Error Page
+ * エラーページのスタイル定義
+ */
+
+.p-404 {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2xl) 0;
+}
+
+.p-404__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-2xl);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Visual Section */
+.p-404__visual {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+/* Logo */
+.p-404__logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.p-404__logo-img {
+  width: 120px;
+  height: 120px;
+  filter: drop-shadow(0 8px 16px rgba(251, 141, 39, 0.3));
+  animation: logoFloat 3s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .p-404__logo-img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.p-404__title {
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: bold;
+  line-height: 1;
+  color: var(--color-primary);
+  margin: 0;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.9;
+}
+
+.p-404__subtitle {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Message Section */
+.p-404__message {
+  text-align: center;
+}
+
+.p-404__text {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin: 0 0 var(--spacing-2xl);
+}
+
+.p-404__actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes logoFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+}
+
+.p-404__title {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Focus styles for accessibility */
+.p-404 .c-button:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .p-404__title {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+}

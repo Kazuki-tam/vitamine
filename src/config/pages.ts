@@ -33,6 +33,11 @@ export const simplePageConfigs: Record<string, SimplePageConfig> = {
     description: 'サイトの説明文',
     ogDescription: 'シンプルで使いやすいWeb制作テンプレート',
   },
+  '/404.html': {
+    title: '404 - ページが見つかりません',
+    description: 'お探しのページは削除されたか、URLが変更された可能性があります。',
+    ogDescription: '404エラー - ページが見つかりません',
+  },
   // 新しいページの追加例（超シンプル）:
   // '/contact/index.html': {
   //   title: 'Contact',

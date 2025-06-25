@@ -88,4 +88,12 @@
   --header-height-desktop: calc(var(--spacing-md) * 2 + 40px + 2px); /* padding + logo + border */
   --header-height-mobile: calc(var(--spacing-md) * 2 + 36px + 2px); /* padding + mobile logo + border */
   --scroll-offset-margin: 1.6rem; /* スクロール時の追加マージン */
+
+  /* 追加のスペーシング */
+  --spacing-3xl: calc(var(--spacing-unit) * 8); /* 64px */
+
+  /* カラー拡張 */
+  --color-text-primary: var(--color-text-base);
+  --color-text-secondary: var(--color-text-light);
+  --color-accent: var(--color-secondary);
 }

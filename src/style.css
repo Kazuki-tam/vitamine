@@ -16,6 +16,7 @@
 @import "./styles/object/project/_hero.css";
 @import "./styles/object/project/_page-header.css";
 @import "./styles/object/project/_cta.css";
+@import "./styles/object/project/_404.css";
 
 /* Utility */
 @import "./styles/object/utility/_utility.css";

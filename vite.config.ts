@@ -1,6 +1,8 @@
 import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
+import handlebars from 'vite-plugin-handlebars';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { getPageConfig, globalConfig } from './src/config/pages';
 
 export default defineConfig({
   root: './src',
@@ -17,6 +19,22 @@ export default defineConfig({
     },
   },
   plugins: [
+    handlebars({
+      partialDirectory: resolve(__dirname, 'src/templates/partials'),
+      context(pagePath: string) {
+        const normalizedPath = pagePath.replace(/\\/g, '/');
+        const relativePath = normalizedPath.replace(resolve(__dirname, 'src'), '');
+        const pageConfig = getPageConfig(relativePath);
+
+        return {
+          // グローバル設定
+          ...globalConfig,
+          currentYear: new Date().getFullYear(),
+          // ページ固有の設定
+          ...(pageConfig || {}),
+        };
+      },
+    }),
     ViteImageOptimizer({
       png: {
         quality: 90,
